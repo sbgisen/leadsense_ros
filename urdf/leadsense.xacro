@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="leadsense_gazebo.xacro"/>
+  <!-- <xacro:include filename="$(find leadsense_ros)/urdf/leadsense_gazebo.xacro"/> -->
+  <xacro:macro name="sensor_stereocamera" params="parent:='base_link' *origin right_cam_dist:=0.12">
+    <link name="leadsense_left_camera">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.007" length="0.004"/>
+        </geometry>
+        <material name="dark_grey">
+          <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+    </link>
+    <link name="leadsense_center">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.57 0 1.57"/>
+        <geometry>
+          <mesh filename="package://leadsense_ros/urdf/leadsenseL.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.8 0.8 0.8 1"/>
+        </material>
+      </visual>
+    </link>
+    <link name="leadsense_right_camera">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.007" length="0.004"/>
+        </geometry>
+        <material name="dark_grey">
+          <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+    </link>
+
+    <link name="leadsense_imu_frame">
+    </link>
+    <link name="leadsense_left_laser_scan_frame">
+    </link>
+
+    <link name="leadsense_right_laser_scan_frame">
+    </link>
+
+    <joint name="stereo_camra_link_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="leadsense_left_camera"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+    <joint name="imu_link_joint" type="fixed">
+      <parent link="leadsense_left_camera"/>
+      <child link="leadsense_imu_frame"/>
+      <origin xyz="0.0009195 -0.00005 -0.009" rpy="0 0 0"/>
+    </joint>
+    <joint name="leadsense_center_joint" type="fixed">
+      <parent link="leadsense_right_camera"/>
+      <child link="leadsense_center"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    <joint name="leadsense_right_camera_joint" type="fixed">
+      <parent link="leadsense_left_camera"/>
+      <child link="leadsense_right_camera"/>
+      <origin xyz="0 -${right_cam_dist} 0" rpy="0 0 0"/>
+    </joint>
+    <joint name="leadsense_left_laser_scan_frame_joint" type="fixed">
+      <parent link="leadsense_left_camera"/>
+      <child link="leadsense_left_laser_scan_frame"/>
+      <!-- angles are measured around the positive Z axis (counterclockwise, if Z is up) with zero angle being forward along the x axis -->
+      <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    </joint>
+
+    <joint name="leadsense_right_laser_scan_frame_joint" type="fixed">
+      <parent link="leadsense_right_camera"/>
+      <child link="leadsense_right_laser_scan_frame"/>
+      <!-- angles are measured around the positive Z axis (counterclockwise, if Z is up) with zero angle being forward along the x axis -->
+      <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    </joint>
+    <xacro:stereo_camera baseline="${right_cam_dist}"/>
+  </xacro:macro>
+</robot>
