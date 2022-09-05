@@ -13,7 +13,7 @@
 	<arg name="imu_using_9_axes"/>
 	<arg name="obstacle_detection"/>
 
-	<include file="$(find leadsense_ros)/launch/leadsense_tf.launch" />
+	<!-- <include file="$(find leadsense_ros)/launch/leadsense_tf.launch" /> -->
 
 	<node name="leadsense_ros_node" pkg="leadsense_ros" type="leadsense_ros_node" output="screen">
 		<!-- leadsense parameters -->
@@ -31,18 +31,23 @@
 		<param name="obstacle_detection"	value="$(arg obstacle_detection)" />
 
 		<!-- ROS topic names -->
-		<param name="left_image_topic"      value="left/image_rect_gray" />
-		<param name="left_cam_info_topic"   value="left/camera_info" />
+		<!-- <param name="left_image_topic"      value="left/image_rect_gray" /> -->
+		<param name="left_image_topic"      value="camera/left/image_raw" />
+		<!-- <param name="left_cam_info_topic"   value="left/camera_info" /> -->
+		<param name="left_cam_info_topic"   value="camera/left/camera_info" />
     
-		<param name="right_image_topic"      value="right/image_rect_gray" />
-		<param name="right_cam_info_topic"   value="right/camera_info" />
+		<!-- <param name="right_image_topic"      value="right/image_rect_gray" /> -->
+		<param name="right_image_topic"      value="camera/right/image_raw" />
+		<!-- <param name="right_cam_info_topic"   value="right/camera_info" /> -->
+		<param name="right_cam_info_topic"   value="camera/right/camera_info" />
     
 		<param name="depth_image_topic"      value="depth/depth_registered" />
 		<param name="depth_cam_info_topic"   value="depth/camera_info" />
 
 		<param name="disparity_topic"      value="disparity/disparity" />
 
-		<param name="point_cloud_topic"     value="point_cloud/cloud_registered" />
+		<!-- <param name="point_cloud_topic"     value="point_cloud/cloud_registered" /> -->
+		<param name="point_cloud_topic"     value="points" />
 
 		<param name="imu_topic"     value="imu/data" />
 		<param name="imu_raw_topic"     value="imu/data_raw" />
@@ -55,14 +60,5 @@
 		<param name="laser_scan_topic"     value="left/laser_scan" />
 		<param name="image_with_obstacle_topic"      value="left/image_with_obstacle" />
 		<param name="image_with_ground_topic"      value="left/image_with_ground" />
-  
-  
 	</node>
-
-	<!-- ROS URDF description of the leadsense -->
-	<param name="leadsense_description" textfile="$(find leadsense_ros)/urdf/leadsense.urdf" />
-	<node name="leadsense_state_publisher" pkg="robot_state_publisher" type="state_publisher">
-		<remap from="robot_description" to="leadsense_description" />
-	</node>
-  
 </launch>
