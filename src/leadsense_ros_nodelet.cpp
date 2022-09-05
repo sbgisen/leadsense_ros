@@ -928,11 +928,13 @@ namespace leadsense_ros {
 			// Set the default topic names
 			string left_image_topic = "left/" + img_topic;
 			string left_cam_info_topic = "left/camera_info";
-			left_frame_id = "/leadsense_left_camera";
+			//left_frame_id = "/leadsense_left_camera";
+			left_frame_id = "/leadsense_left_laser_scan_frame";
 
 			string right_image_topic = "right/" + img_topic;
 			string right_cam_info_topic = "right/camera_info";
-			right_frame_id = "/leadsense_right_camera";
+			//right_frame_id = "/leadsense_right_camera";
+			right_frame_id = "/leadsense_right_laser_scan_frame";
 
 			// Note: Depth image frame id must match image frame id
 			string depth_image_topic = "depth/";
